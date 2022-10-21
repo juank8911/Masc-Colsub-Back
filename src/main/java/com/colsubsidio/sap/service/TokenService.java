@@ -11,25 +11,34 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.colsubsidio.sap.apigee.ApigeeTokenReqDTO;
 import com.colsubsidio.sap.apigee.ApigeeTokenResDTO;
+import com.colsubsidio.sap.interfaz.IToken;
 
 
-@Component
-public class TokenService {
+//@Component
+@Service
+public class TokenService implements IToken{
 
     //@Value("${apigee.url}")
-    private String urlApi = "https://colsubsidio-test.apigee.net";
-    
+//    private String urlApi = "https://colsubsidio-test.apigee.net";
+    //api en produccion
+    private String urlApi = "https://colsubsidio-prod.apigee.net";
     //@Value("${apigee.token.url}")
 	private String auth = "/oauth/client_credential/accesstoken";
-    //@Value("${apigee.token.clienteId}")
-    private String clienteId = "5A0amJxdlqDKntk1HbMAW7IxNrOW2026";
+//    @Value("${apigee.token.clienteId}")
+//    private String clienteId = "sD68JKGm4GeAb8lFva22v7OgCBSXfcbj";
+    //cliente id en produccion 
+    private String clienteId = "RLU3NUj0P3jEernbQJOg1iXPqasHAQHX";
+//    
 	//@Value("${apigee.token.clienteSecreto}")
-	private String clienteSecreto = "A3Wtl1gzqXUcM5rQ";
+//	private String clienteSecreto = "9yXLfPgaxBAYEGSl";
+//Cliente cliente Secreto en produccion
+	private String clienteSecreto = "V8ZAMt4NIsdySGPg";
 	//@Value("${apigee.token.maxTimeInMillis}")
 	private Long maxTimeInMillis = (long) 300000;
 	
@@ -42,6 +51,7 @@ public class TokenService {
 	private String token;
 	private LocalDateTime tokenDate;
 	
+	@Override
 	public String getToken() {
 		if (token == null) {
 			generateToken();
@@ -64,6 +74,7 @@ public class TokenService {
 		tokenDate = LocalDateTime.now();
 	}
 	
+	@Override
 	public ApigeeTokenResDTO postAccessToken(ApigeeTokenReqDTO request) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
