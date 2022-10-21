@@ -1,7 +1,6 @@
 package com.colsubsidio.sap.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,12 +20,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import reactor.core.publisher.Mono;
 
-import com.colsubsidio.sap.apigee.ApigeeAfiliadoResDTO;
 import com.colsubsidio.sap.apigee.ApigeeTokenReqDTO;
 import com.colsubsidio.sap.apigee.ApigeeTokenResDTO;
 import com.colsubsidio.sap.apigee.ApigeeValidadorReq;
-import com.colsubsidio.sap.interfaz.IAfiliado;
-import com.colsubsidio.sap.service.AfiliadoServcie;
 import com.colsubsidio.sap.service.TokenService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
-<<<<<<< HEAD
-public class afiliadoController {
-=======
 @CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class afiliadoController {
@@ -73,48 +66,28 @@ public class afiliadoController {
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         
         UriComponentsBuilder uri = UriComponentsBuilder.fromHttpUrl(urlApi+urlafi+"tipoId="+parametro);
->>>>>>> main
 
-	//cambiar a interface para consumir el servicio
-	//private AfiliadoServcie tok = new AfiliadoServcie();
+        /*** SELECCIONAS LA PAGINA QUE QUIERAS MOSTRAR ***/
+        model.addAttribute("datos", "Estos son datos!!!");
+        
+        
+       
+        return "comun::" + uri.toString();
+    }
 	
-	@Autowired
-	private IAfiliado afil;
-	
-
-	
-
-	//cedula ej CO1C y 1018497540
-	@CrossOrigin("http://localhost:4200/")
-	@GetMapping("/afiliado/{tipoid}/{numeroId}")
-	public String getAfiliado(@PathVariable("tipoid") String tipoid,@PathVariable("numeroId") String numeroId)
+	@GetMapping("/afiliado")
+	public String getAfiliado()
 	{
 		
-//		System.out.println(tipoid+" / "+numeroId);
-		String result =  afil.Apigafiliado(tipoid,numeroId);
-//		System.out.println(result);
-		return result.toString();
-		
-		
+		String uri = "https://jsonplaceholder.typicode.com/posts/1";
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.getForObject(uri, String.class);
+		return result;
 	}
 	
 	
-	@CrossOrigin("http://localhost:4200/")
-	@GetMapping("/empresa/{numeroId}")
-	public String getEmpresa(@PathVariable("numeroId")String numeroId)
-	{
-		//crear metodo para consumir de la api empresas
-	//String afiliado = afil.getEmpresaPrincipal();
-//		System.out.println("/empresa / "+numeroId);
-		String result =  afil.apiEmpresa(numeroId);
-//		System.out.println(result);
-		return result.toString();
-	}
 	
-<<<<<<< HEAD
-
 	
-=======
 		
 	    //10/10/2022
 		@GetMapping("/afiliado/validador/{tipoId}")
@@ -139,5 +112,4 @@ public class afiliadoController {
 			return f1;
 		
 	}
->>>>>>> main
 }

@@ -17,6 +17,3 @@ tipo:
 
 
  
-#spring:
-#  config:
-#    import: "file:./config/general.yml"
